@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+struct products {
+	char *productName;
+	char *producer;
+	int year;
+	int quantity;
+	int price;
+};
+
+void generateName(char *name, int length);
+void printInfo(products *p, int i);
+
+int main(int argc, char** argv) {
+	srand(time(NULL));
+	
+	int Numberofproducts = 20 + rand()%20;
+	
+	products *p = (products *)malloc(Numberofproducts*sizeof(products));
+
+	for (int i = 0; i < Numberofproducts; i++)
+    {
+		(p + i)->productName = (char *)malloc(5 * sizeof(char));
+		generateName((p + i)->productName, 5);
+		
+		(p + i)->producer = (char *)malloc(5 * sizeof(char));
+		generateName((p + i)->producer, 5);
+		
+		(p + i)->year = 1998 + rand()%21;
+		
+		(p + i)->quantity = 1 + rand()%100;
+		
+		(p + i)->price = 100 + rand()%1000;
+		printInfo(p, i);			
+	}
+	printf("\n---------------\n");
+	printf("Products made this year : \n");
+	for (int i = 0; i < Numberofproducts; i++)
+	{
+		if(((p+i)->year)==2018)
+		{
+			printInfo(p, i);
+		}		    
+	}
+	int TotalPrice=0;
+	for (int i = 0; i < Numberofproducts; i++)
+	{
+		if(((p+i)->year)==2018)
+		{
+			TotalPrice+=((p+i)->price)*((p+i)->quantity);			
+		}
+	}
+	printf("Total price: %d\n", TotalPrice);
+	return 0;
+}
+
+
+void generateName(char *name, int length)
+{
+	if (length == 0)
+		length = 1 + rand() % 6;
+
+	for (int i = 0; i < length; i++)
+	{
+		if (i == 0)
+			*(name + i) = (char)(65 + rand() % 24);
+		else
+			*(name + i) = (char)(97 + rand() % 24);
+	}
+	*(name + length) = '\0';
+}
+
+void printInfo(products *p, int i)
+{
+	printf("#%d %s \n", i + 1, (p+i)->productName);		
+
+	printf(" --> Producer: %s\n", (p+i)->producer);
+
+	printf(" --> Year: %d\n", (p+i)->year);
+	
+	printf(" --> Quantity: %d\n", (p+i)->quantity);
+	
+	printf(" --> Price: %d\n", (p+i)->price);
+}
+
